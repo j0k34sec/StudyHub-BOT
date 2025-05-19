@@ -6,6 +6,7 @@ const db = require('./config/database');
 const { getSettings, setSettings } = require('./config/guildSettings');
 const { initializeTimers } = require('./utils/roleTimerDB');
 const { initializeSchedules } = require('./utils/studyScheduler');
+const KeepAlive = require('./utils/keepAlive');
 
 // Create a new client instance
 const client = new Client({
@@ -308,6 +309,10 @@ client.on('ready', async () => {
     // Initialize role timers and scheduled study sessions
     initializeTimers();
     initializeSchedules();
+    
+    // Start the web server to keep the bot alive
+    KeepAlive();
+    console.log('Keep-alive server started');
 });
 
 // Login to Discord with your client's token
