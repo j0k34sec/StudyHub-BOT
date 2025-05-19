@@ -116,6 +116,46 @@ A modern Discord bot that automatically creates and manages temporary voice chan
 
 ---
 
+## 🚀 Deployment on Replit
+
+To deploy this bot on Replit, follow these additional steps:
+
+1. **Fix better-sqlite3 compatibility issue**
+   
+   Option 1: Install Python in your Replit (recommended)
+   ```bash
+   # Add Python to your Replit
+   echo "PYTHON=/nix/store/$(ls -la /nix/store | grep python3 | head -n 1 | awk '{print $9}')/bin/python3" >> .replit
+   # Then install better-sqlite3
+   npm uninstall better-sqlite3
+   npm install better-sqlite3
+   ```
+   
+   Option 2: Use quick.db instead (alternative solution)
+   ```bash
+   # Remove better-sqlite3
+   npm uninstall better-sqlite3
+   # Install quick.db v7 (which works on Replit)
+   npm install quick.db@7.1.3
+   ```
+   Note: Using quick.db requires code changes to your database.js file.
+
+2. **Install Express for the keep-alive server**
+   ```bash
+   npm install express
+   ```
+
+3. **Set up an Uptime Monitor**
+   - Create an account on [UptimeRobot](https://uptimerobot.com/)
+   - Add a new HTTP monitor pointing to your Replit URL
+   - Set the monitoring interval to 5 minutes
+
+4. **Check Logs**
+   - The bot will log uptime pings to `logs/uptime.log`
+   - You can view these logs to verify the keep-alive system is working
+
+---
+
 ## 🙋 FAQ
 
 - **Q: The bot says setup is required, but I configured everything!**
@@ -123,6 +163,9 @@ A modern Discord bot that automatically creates and manages temporary voice chan
 
 - **Q: How do I add more commands?**
   - A: Add a new file in `commands/` using the provided template, then run `node deploy-commands.js` and restart the bot.
+
+- **Q: I'm getting a NODE_MODULE_VERSION error on Replit**
+  - A: This happens because better-sqlite3 was compiled for a different Node.js version. Run the commands in the Replit deployment section to fix it.
 
 ---
 
