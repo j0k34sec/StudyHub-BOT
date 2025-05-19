@@ -53,6 +53,14 @@ module.exports = {
                 .setDescription('[Admin] List current join-to-create configuration')),
 
     async execute(interaction) {
+        // Check if the interaction has a valid guild
+        if (!interaction.guild) {
+            return interaction.reply({
+                content: '❌ This command can only be used in a server!',
+                ephemeral: true
+            });
+        }
+        
         const guildId = interaction.guild.id;
         let settings = getSettings(guildId) || {
             creatorVC: null,
